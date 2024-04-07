@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+
+  const [payload, setPayload] = useState(null);
+
+  const handleChange = (e)=>{
+    console.log(e)
+    setPayload(e.target.value)
+  }
+
+  const signInEvent = async()=>{
+   console.log(payload)
+   try{
+    const data = await fetch('http://localhost:3000/Signin', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(payload)
+    })
+   console.log(data);
+   }catch(err){
+    console.log('error');
+   }
+  }
+
   return (
     //     <div class="min-h-screen flex items-center justify-center bg-gray-100">
     //   <div class="relative">
@@ -29,6 +53,9 @@ const Login = () => {
     //    </div>
     //   </div>
     // </div>
+
+
+
     <div className=' flex item-center justify-center opacity-85  ' >
       <div className='absolute  bg-black  w-1/3 -translate-y-1/2 top-1/2  ' > {/*after styling add this -translate-y-1/2 top-1/2 */}
         <div className='m-16 ' >
@@ -36,7 +63,9 @@ const Login = () => {
 
 
 <div className='   ' >
-  <input className=' text-white bg-transparent	 border border-white p-3 w-full rounded-md '
+  <input 
+  onChange={handleChange}
+   className=' text-white bg-transparent	 border border-white p-3 w-full rounded-md '
     placeholder='Email or phone number'
     type='email' />
 </div >
@@ -50,7 +79,7 @@ const Login = () => {
 
 <div
   className=' pt-4 flex justify-center  opacity-100  ' >
-  <button className=' w-full p-2 rounded-md font-medium text-white bg-red-400 ' >
+  <button onClick={signInEvent} className=' w-full p-2 rounded-md font-medium text-white bg-red-400 ' >
     Sign In
   </button>
 </div>
